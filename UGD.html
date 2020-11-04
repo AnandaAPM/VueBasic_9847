@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UGD Vue JS</title>
+    <script src="vue.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div id="app">
+        <div class="d-flex justify-content">
+            <div class="card-body justify-content-center">
+                <h2>Tebak Angka!</h2>
+                <p>Tebaklah Angka dari 1-10</p>
+                <div class="card-body text-primary">
+                    <input type="number" class="form-control" v-model="tebakan" :disabled="isDisabled" placeholder="Kira - kira berapa ya?">
+                    <p>Kesempatan: {{kesempatan}}</p>
+                    <button @click="tebak" class="btn btn-primary  btn-sm" :disabled="isDisabled">Tebak</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-left">
+            <span v-if="b == '1'">
+                <p>SELAMAT ANDA MENANG PERMAINAN INI!</p>
+                <button @click="ml" class="btn btn-primary" >Main Lagi?</button>
+            </span >
+            <span v-else-if="s == '1'">
+                <p>TEBAKAN ANDA MASIH SALAH!</p>
+                <button @click="cl" class="btn btn-primary" >Coba Lagi?</button>
+            </span>
+            <span v-else-if="k == '1'">
+                <p>MAAF ANDA KURANG BERUNTUNG!</p>
+                <p>Jawaban Benar : {{angka}}</p>
+                <button @click="ml" class="btn btn-primary" >Main Lagi?</button>
+            </span>
+        </div>
+
+        <footer class="text-center mt-7">
+            {{`${dito.nama} | ${dito.npm} | ${dito.kelas}`}}
+        </footer>
+    </div>
+
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            angka: Math.floor(Math.random() * 10) + 1,
+            tebakan: null,
+            kesempatan: 3,
+            s: null,
+            b: null,
+            k: null,
+            isDisabled: false,
+            dito: {
+                nama: "Ananda APM",
+                npm: "180709847",
+                kelas: "PAW D",
+
+            },
+        },
+        methods: {
+            tebak() {
+                if (this.tebakan == this.angka) {
+                    this.b = 1;
+                } else {
+                    this.s = 1;
+                    this.isDisabled = true;
+                    this.kesempatan--;
+                    if (this.kesempatan == 0) {
+                        this.k = 1;
+
+                    }
+                }
+
+            },
+            cl() {
+                this.isDisabled = false;
+                this.s = 0;
+            },
+            ml() {
+                location.reload();
+            },
+        },
+    });
+</script>
+
+</html>
