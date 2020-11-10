@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas</title>
+    <script src="vue.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <div id="app">
+        <h1 style="text-align: center;">My To Do List</h1>
+        <div class="card">
+            <div class="d-flex justify-content-center">
+                <input type="text" v-model="namaBaru" placeholder="Masukan Nama Kegiatan" @keyup.enter="todoBaru">
+            </div>
+            <div class="d-flex justify-content-center">
+                <select v-model="prioritasBaru" @keyup.enter="todoBaru">
+                    <option value="" selected disabled>Prioritas To Do</option>
+                    <option value="penting">Penting</option>
+                    <option value="biasa">Biasa</option>
+                    <option value="tidak penting">Tidak Penting</option>
+                </select>
+            </div>
+            <div class="d-flex justify-content-center">
+                <input type="text" v-model="catatanBaru" @keyup.enter="todoBaru" placeholder="Masukkan catatan To Do">
+            </div>
+            <div class="d-flex justify-content-center">
+                <button @click="addTodo" :disabled="namaBaru.length === 0 || prioritasBaru.length === 0 || catatanBaru.length === 0" style="background-color: aqua;">
+                    Tambahkan To Do
+                    </button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>To Do List</h2>
+
+
+            <div :class="{completed: todo.completed}" v-for=" todo in reversedTodos">
+                <div class="container">
+                    <p>
+                        <span>Nama Kegiatan     :{{todo.namaTodo}} || </span>
+                        <span>Prioritas         :{{todo.prioritasTodo}} || </span>
+                        <span>Catatan Kegiatan  :{{todo.catatanTodo}} </span>
+                    </p>
+                    <button @click="removeTodo(todo)" style="color: rgb(255, 255, 255); background-color: red;">Hapus</button>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <footer class="text-center mt-7">
+            {{`${dito.namaM} | ${dito.npmM} | ${dito.kelasM}`}}
+        </footer>
+    </div>
+
+
+
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            namaBaru: '',
+            prioritasBaru: '',
+            catatanBaru: '',
+            todos: [],
+            dito: {
+                namaM: "Ananda APM",
+                npmM: "180709847",
+                kelasM: "PAW D",
+            },
+        },
+        computed: {
+            reversedTodos() {
+                return this.todos.slice(0).reverse();
+            },
+        },
+        methods: {
+            addTodo: function() {
+                this.todos.push({
+                    id: this.todos.length + 1,
+                    namaTodo: this.namaBaru,
+                    prioritasTodo: this.prioritasBaru,
+                    catatanTodo: this.catatanBaru,
+                    completed: false,
+                });
+                this.namaBaru = '';
+                this.prioritasBaru = '';
+                this.catatanBaru = '';
+            },
+            removeTodo: function(todo) {
+                this.todos = this.todos.filter((namaBaru) => namaBaru.namaTodo !== todo.namaTodo);
+            },
+        },
+    });
+</script>
+
+</html>
